@@ -36,11 +36,12 @@ mfx_1709\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 mfx_1709\main.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 mfx_1709\main.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo.h
 mfx_1709\main.o: ../Inc/stm32f4xx_nucleo_conf.h
-mfx_1709\main.o: ../Inc/stm32f4xx_nucleo_errno.h
+mfx_1709\main.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo_errno.h
 mfx_1709\main.o: ../Inc/main.h
 mfx_1709\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 mfx_1709\main.o: ../Inc/crc.h
 mfx_1709\main.o: ../Inc/tim.h
+mfx_1709\main.o: ../Inc/usart.h
 mfx_1709\main.o: ../Inc/gpio.h
 mfx_1709\main.o: ../Inc/app_x-cube-mems1.h
 mfx_1709\main.o: ../Inc/Sensor.h
@@ -50,6 +51,7 @@ mfx_1709\main.o: ..\Middlewares\ST\STM32_MotionFX_Library\Inc\motion_fx.h
 mfx_1709\main.o: ../Drivers/BSP/IKS01A2/iks01a2_motion_sensors.h
 mfx_1709\main.o: ../Inc/iks01a2_conf.h
 mfx_1709\main.o: ../Inc/stm32f4xx_nucleo_bus.h
+mfx_1709\main.o: ../Inc/stm32f4xx_nucleo_errno.h
 mfx_1709\main.o: ../Drivers/BSP/Components/Common/motion_sensor.h
 mfx_1709\main.o: ../Drivers/BSP/Components/lsm6dsl/lsm6dsl.h
 mfx_1709\main.o: ../Drivers/BSP/Components/lsm6dsl/lsm6dsl_reg.h

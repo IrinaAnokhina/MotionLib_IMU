@@ -37,6 +37,6 @@ mfx_1709\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 mfx_1709\tim.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 mfx_1709\tim.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo.h
 mfx_1709\tim.o: ../Inc/stm32f4xx_nucleo_conf.h
-mfx_1709\tim.o: ../Inc/stm32f4xx_nucleo_errno.h
+mfx_1709\tim.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo_errno.h
 mfx_1709\tim.o: ../Inc/main.h
 mfx_1709\tim.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

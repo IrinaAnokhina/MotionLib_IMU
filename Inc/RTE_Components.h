@@ -36,6 +36,7 @@
 #define  __RTE_COMPONENTS_H__ 
 
 /* Defines ------------------------------------------------------------------*/
+/* STMicroelectronics.X-CUBE-MEMS1.6.2.0 */
 #define IKS01A2_DATALOGTERMINAL_DEMO
 #define LSM6DSL_ACCGYR_I2C
 #define LSM303AGR_ACCMAG_I2C

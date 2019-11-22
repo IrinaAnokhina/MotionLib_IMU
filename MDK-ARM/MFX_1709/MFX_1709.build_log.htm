@@ -21,20 +21,26 @@ Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.5.0
 Dialog DLL:      TCM.DLL V1.36.1.0
  
 <h2>Project:</h2>
-E:\Ira\Projects\MFX_1709_190919\MDK-ARM\MFX_1709.uvprojx
-Project File Date:  11/21/2019
+C:\Users\Ирина\Downloads\MotionLib_IMU\MDK-ARM\MFX_1709.uvprojx
+Project File Date:  11/22/2019
 
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'MFX_1709'
 compiling Sensor.c...
-..\Src\Sensor.c(215): warning:  #1-D: last line of file ends without a newline
+../Inc/Oth_Dev.h(26): warning:  #1295-D: Deprecated declaration OutBufferStr - give arg types
+  uint8_t OutBufferStr();
+../Inc/Oth_Dev.h(27): warning:  #1295-D: Deprecated declaration IsNewData - give arg types
+  uint8_t IsNewData();
+../Inc/Oth_Dev.h(28): warning:  #1295-D: Deprecated declaration clearBuf - give arg types
+  void clearBuf();
+..\Src\Sensor.c(235): warning:  #1-D: last line of file ends without a newline
   }
-..\Src\Sensor.c: 1 warning, 0 errors
+..\Src\Sensor.c: 4 warnings, 0 errors
 linking...
-Program Size: Code=37544 RO-data=1088 RW-data=520 ZI-data=33800  
+Program Size: Code=72384 RO-data=1564 RW-data=5048 ZI-data=37968  
 FromELF: creating hex file...
-"MFX_1709\MFX_1709.axf" - 0 Error(s), 1 Warning(s).
+"MFX_1709\MFX_1709.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -57,7 +63,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:02
 </pre>
 </body>
 </html>

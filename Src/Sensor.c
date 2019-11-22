@@ -1,11 +1,16 @@
 #include "Sensor.h"
-#include "MahonyAHRS.h"
+//#include "MahonyAHRS.h"
+#include "Oth_Dev.h"
 
 static IKS01A2_MOTION_SENSOR_Axes_t AccValue;
 static IKS01A2_MOTION_SENSOR_Axes_t GyrValue;
 static IKS01A2_MOTION_SENSOR_Axes_t MagValue;
 static IKS01A2_MOTION_SENSOR_Axes_t MagOffset;
 
+extern UART_HandleTypeDef huart1;
+extern uint8_t transfer_compl;
+ MFX_output_t data_out;
+uint8_t send_count = 0;
 TM_AHRSIMU_t IMU;
 static volatile uint8_t MagCalRequest = 0;
 HAL_StatusTypeDef status;
@@ -31,18 +36,18 @@ int lib_version_len;
 	void lib_init(TIM_HandleTypeDef* AlgoTimHandle)
 	{
 		/* Sensor Fusion API initialization function */
-//  MotionFX_manager_init();
+  MotionFX_manager_init();
 
   /* OPTIONAL */
   /* Get library version */
-//  MotionFX_manager_get_version(lib_version, &lib_version_len);
+  MotionFX_manager_get_version(lib_version, &lib_version_len);
 		 /* Enable magnetometer calibration */
-//  MotionFX_manager_MagCal_start(ALGO_PERIOD);
-		TM_AHRSIMU_Init(&IMU, 200, 0.1, 0);
+  MotionFX_manager_MagCal_start(ALGO_PERIOD);
+//		TM_AHRSIMU_Init(&IMU, 200, 0.1, 0);
 	/*Start timer */
 	HAL_TIM_Base_Start_IT(AlgoTimHandle);
 	/*Start fusion calibration */
-//	 MotionFX_manager_start_9X();
+	 MotionFX_manager_start_6X();
 		
 		}
 	
@@ -58,10 +63,25 @@ void Lib_Process(void)
       Gyro_Sensor_Handler(IKS01A2_LSM6DSL_0);
 //      Magneto_Sensor_Handler(IKS01A2_LSM303AGR_MAG_0);
 			 /* Sensor Fusion specific part */
-//      FX_Data_Handler();
-			IMU_proc();
-				MahonyAHRSupdateIMU(&IMU, Gx, Gy, Gz, Ax, Ay, Az);
+      FX_Data_Handler();
+//			IMU_proc();
+//				TM_AHRSIMU_UpdateIMU(&IMU, Gx, Gy, Gz, Ax, Ay, Az);
 			 BSP_LED_Off(LED2);
+		}
+//		 uint8_t data[64];
+//		
+//			if(++send_count >= 100)
+//				{
+////					sprintf((char*)data, "Ax: %8.3f  Ay: %8.3f  Az: %8.3f  \r\n", Ax, Ay, Az );		
+////		sprintf((char*)data, "R: %8.3f  P: %8.3f  Y: %8.3f  \r\n", IMU.Roll, IMU.Pitch, IMU.Yaw );
+//					sprintf((char*)data, "R: %8.3f  P: %8.3f  Y: %8.3f  \r\n", data_out.rotation_6X[2], data_out.rotation_6X[1], data_out.rotation_6X[0] );
+//			HAL_UART_Transmit_IT(&huart1, data, 40);
+//				}
+		
+		if(transfer_compl)
+		{
+			transfer_compl = 0;
+			read_buf();
 		}
 	}
 }
@@ -87,7 +107,7 @@ void IMU_proc(void)
 #if ((defined (USE_STM32F4XX_NUCLEO)) || (defined (USE_STM32L4XX_NUCLEO)) || (defined (USE_STM32L1XX_NUCLEO)))
   MFX_input_t data_in;
   MFX_input_t *pdata_in = &data_in;
-  MFX_output_t data_out;
+ 
   MFX_output_t *pdata_out = &data_out;
 #elif (defined (USE_STM32L0XX_NUCLEO))
   MFX_CM0P_input_t data_in;
@@ -106,9 +126,9 @@ void IMU_proc(void)
         data_in.acc[1] = (float)AccValue.y * FROM_MG_TO_G;
         data_in.acc[2] = (float)AccValue.z * FROM_MG_TO_G;
 
-        data_in.mag[0] = (float)MagValue.x * FROM_MGAUSS_TO_UT50;
-        data_in.mag[1] = (float)MagValue.y * FROM_MGAUSS_TO_UT50;
-        data_in.mag[2] = (float)MagValue.z * FROM_MGAUSS_TO_UT50;
+//        data_in.mag[0] = (float)MagValue.x * FROM_MGAUSS_TO_UT50;
+//        data_in.mag[1] = (float)MagValue.y * FROM_MGAUSS_TO_UT50;
+//        data_in.mag[2] = (float)MagValue.z * FROM_MGAUSS_TO_UT50;
 
         /* Run Sensor Fusion algorithm */
         BSP_LED_On(LED2);

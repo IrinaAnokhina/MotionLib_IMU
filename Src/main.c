@@ -22,6 +22,7 @@
 #include "main.h"
 #include "crc.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 #include "app_x-cube-mems1.h"
 
@@ -93,11 +94,14 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_CRC_Init();
-	  MX_MEMS_Init();
-  
+  MX_TIM3_Init();
+  MX_USART1_UART_Init();
+  MX_USART6_UART_Init();
+  MX_MEMS_Init();
   /* USER CODE BEGIN 2 */
 //Init_Sensors();
 MX_TIM3_Init();
+ __HAL_UART_ENABLE_IT(&huart6, UART_IT_RXNE);
 lib_init(&htim3);
 Lib_Process();
   /* USER CODE END 2 */
@@ -106,10 +110,10 @@ Lib_Process();
   /* USER CODE BEGIN WHILE */
 // while (1)
 // {
-//    /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-//  MX_MEMS_Process();
-//    /* USER CODE BEGIN 3 */
+  MX_MEMS_Process();
+    /* USER CODE BEGIN 3 */
 //  }
   /* USER CODE END 3 */
 }

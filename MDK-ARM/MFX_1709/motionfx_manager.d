@@ -39,6 +39,6 @@ mfx_1709\motionfx_manager.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_t
 mfx_1709\motionfx_manager.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 mfx_1709\motionfx_manager.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo.h
 mfx_1709\motionfx_manager.o: ../Inc/stm32f4xx_nucleo_conf.h
-mfx_1709\motionfx_manager.o: ../Inc/stm32f4xx_nucleo_errno.h
+mfx_1709\motionfx_manager.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo_errno.h
 mfx_1709\motionfx_manager.o: ../Inc/main.h
 mfx_1709\motionfx_manager.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h

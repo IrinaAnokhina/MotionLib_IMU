@@ -34,7 +34,6 @@
 #include "iks01a2_env_sensors.h"
 #include "stm32f4xx_nucleo.h"
 #include "math.h"
-#include "Sensor.h"
 
 /* Private typedef -----------------------------------------------------------*/
 typedef struct displayFloatToInt_s {
@@ -56,9 +55,9 @@ static int32_t PushButtonState = GPIO_PIN_RESET;
 
 /* Private function prototypes -----------------------------------------------*/
 static void floatToInt(float in, displayFloatToInt_t *out_value, int32_t dec_prec);
-//static void Accelero_Sensor_Handler(uint32_t Instance);
-//static void Gyro_Sensor_Handler(uint32_t Instance);
-//static void Magneto_Sensor_Handler(uint32_t Instance);
+static void Accelero_Sensor_Handler(uint32_t Instance);
+static void Gyro_Sensor_Handler(uint32_t Instance);
+static void Magneto_Sensor_Handler(uint32_t Instance);
 static void Temp_Sensor_Handler(uint32_t Instance);
 static void Hum_Sensor_Handler(uint32_t Instance);
 static void Press_Sensor_Handler(uint32_t Instance);
@@ -238,7 +237,7 @@ void MX_IKS01A2_DataLogTerminal_Process(void)
       Press_Sensor_Handler(i);
     }
   }
-FX_Data_Handler();
+
   HAL_Delay( 1000 );
 }
 
@@ -271,192 +270,192 @@ static void floatToInt(float in, displayFloatToInt_t *out_value, int32_t dec_pre
   * @param  Instance the device instance
   * @retval None
   */
-//static void Accelero_Sensor_Handler(uint32_t Instance)
-//{
-//  float odr;
-//  int32_t fullScale;
-//  IKS01A2_MOTION_SENSOR_Axes_t acceleration;
-//  displayFloatToInt_t out_value;
-//  uint8_t whoami;
+static void Accelero_Sensor_Handler(uint32_t Instance)
+{
+  float odr;
+  int32_t fullScale;
+  IKS01A2_MOTION_SENSOR_Axes_t acceleration;
+  displayFloatToInt_t out_value;
+  uint8_t whoami;
 
-//  if (IKS01A2_MOTION_SENSOR_GetAxes(Instance, MOTION_ACCELERO, &acceleration))
-//  {
-//    snprintf(dataOut, MAX_BUF_SIZE, "\r\nACC[%d]: Error\r\n", (int)Instance);
-//  }
-//  else
-//  {
-//    snprintf(dataOut, MAX_BUF_SIZE, "\r\nACC_X[%d]: %d, ACC_Y[%d]: %d, ACC_Z[%d]: %d\r\n", (int)Instance,
-//             (int)acceleration.x, (int)Instance, (int)acceleration.y, (int)Instance, (int)acceleration.z);
-//  }
+  if (IKS01A2_MOTION_SENSOR_GetAxes(Instance, MOTION_ACCELERO, &acceleration))
+  {
+    snprintf(dataOut, MAX_BUF_SIZE, "\r\nACC[%d]: Error\r\n", (int)Instance);
+  }
+  else
+  {
+    snprintf(dataOut, MAX_BUF_SIZE, "\r\nACC_X[%d]: %d, ACC_Y[%d]: %d, ACC_Z[%d]: %d\r\n", (int)Instance,
+             (int)acceleration.x, (int)Instance, (int)acceleration.y, (int)Instance, (int)acceleration.z);
+  }
 
-//  printf("%s", dataOut);
+  printf("%s", dataOut);
 
-//  if (verbose == 1)
-//  {
-//    if (IKS01A2_MOTION_SENSOR_ReadID(Instance, &whoami))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: Error\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: 0x%x\r\n", (int)Instance, (int)whoami);
-//    }
+  if (verbose == 1)
+  {
+    if (IKS01A2_MOTION_SENSOR_ReadID(Instance, &whoami))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: Error\r\n", (int)Instance);
+    }
+    else
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: 0x%x\r\n", (int)Instance, (int)whoami);
+    }
 
-//    printf("%s", dataOut);
+    printf("%s", dataOut);
 
-//    if (IKS01A2_MOTION_SENSOR_GetOutputDataRate(Instance, MOTION_ACCELERO, &odr))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: ERROR\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      floatToInt(odr, &out_value, 3);
-//      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: %d.%03d Hz\r\n", (int)Instance, (int)out_value.out_int,
-//               (int)out_value.out_dec);
-//    }
+    if (IKS01A2_MOTION_SENSOR_GetOutputDataRate(Instance, MOTION_ACCELERO, &odr))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: ERROR\r\n", (int)Instance);
+    }
+    else
+    {
+      floatToInt(odr, &out_value, 3);
+      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: %d.%03d Hz\r\n", (int)Instance, (int)out_value.out_int,
+               (int)out_value.out_dec);
+    }
 
-//    printf("%s", dataOut);
+    printf("%s", dataOut);
 
-//    if (IKS01A2_MOTION_SENSOR_GetFullScale(Instance, MOTION_ACCELERO, &fullScale))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: ERROR\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: %d g\r\n", (int)Instance, (int)fullScale);
-//    }
+    if (IKS01A2_MOTION_SENSOR_GetFullScale(Instance, MOTION_ACCELERO, &fullScale))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: ERROR\r\n", (int)Instance);
+    }
+    else
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: %d g\r\n", (int)Instance, (int)fullScale);
+    }
 
-//    printf("%s", dataOut);
-//  }
-//}
+    printf("%s", dataOut);
+  }
+}
 
-///**
-//  * @brief  Handles the gyroscope axes data getting/sending
-//  * @param  Instance the device instance
-//  * @retval None
-//  */
-//static void Gyro_Sensor_Handler(uint32_t Instance)
-//{
-//  float odr;
-//  int32_t fullScale;
-//  IKS01A2_MOTION_SENSOR_Axes_t angular_velocity;
-//  displayFloatToInt_t out_value;
-//  uint8_t whoami;
+/**
+  * @brief  Handles the gyroscope axes data getting/sending
+  * @param  Instance the device instance
+  * @retval None
+  */
+static void Gyro_Sensor_Handler(uint32_t Instance)
+{
+  float odr;
+  int32_t fullScale;
+  IKS01A2_MOTION_SENSOR_Axes_t angular_velocity;
+  displayFloatToInt_t out_value;
+  uint8_t whoami;
 
-//  if (IKS01A2_MOTION_SENSOR_GetAxes(Instance, MOTION_GYRO, &angular_velocity))
-//  {
-//    snprintf(dataOut, MAX_BUF_SIZE, "\r\nGYR[%d]: Error\r\n", (int)Instance);
-//  }
-//  else
-//  {
-//    snprintf(dataOut, MAX_BUF_SIZE, "\r\nGYR_X[%d]: %d, GYR_Y[%d]: %d, GYR_Z[%d]: %d\r\n", (int)Instance,
-//             (int)angular_velocity.x, (int)Instance, (int)angular_velocity.y, (int)Instance, (int)angular_velocity.z);
-//  }
+  if (IKS01A2_MOTION_SENSOR_GetAxes(Instance, MOTION_GYRO, &angular_velocity))
+  {
+    snprintf(dataOut, MAX_BUF_SIZE, "\r\nGYR[%d]: Error\r\n", (int)Instance);
+  }
+  else
+  {
+    snprintf(dataOut, MAX_BUF_SIZE, "\r\nGYR_X[%d]: %d, GYR_Y[%d]: %d, GYR_Z[%d]: %d\r\n", (int)Instance,
+             (int)angular_velocity.x, (int)Instance, (int)angular_velocity.y, (int)Instance, (int)angular_velocity.z);
+  }
 
-//  printf("%s", dataOut);
+  printf("%s", dataOut);
 
-//  if (verbose == 1)
-//  {
-//    if (IKS01A2_MOTION_SENSOR_ReadID(Instance, &whoami))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: Error\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: 0x%x\r\n", (int)Instance, (int)whoami);
-//    }
+  if (verbose == 1)
+  {
+    if (IKS01A2_MOTION_SENSOR_ReadID(Instance, &whoami))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: Error\r\n", (int)Instance);
+    }
+    else
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: 0x%x\r\n", (int)Instance, (int)whoami);
+    }
 
-//    printf("%s", dataOut);
+    printf("%s", dataOut);
 
-//    if (IKS01A2_MOTION_SENSOR_GetOutputDataRate(Instance, MOTION_GYRO, &odr))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: ERROR\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      floatToInt(odr, &out_value, 3);
-//      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: %d.%03d Hz\r\n", (int)Instance, (int)out_value.out_int,
-//               (int)out_value.out_dec);
-//    }
+    if (IKS01A2_MOTION_SENSOR_GetOutputDataRate(Instance, MOTION_GYRO, &odr))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: ERROR\r\n", (int)Instance);
+    }
+    else
+    {
+      floatToInt(odr, &out_value, 3);
+      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: %d.%03d Hz\r\n", (int)Instance, (int)out_value.out_int,
+               (int)out_value.out_dec);
+    }
 
-//    printf("%s", dataOut);
+    printf("%s", dataOut);
 
-//    if (IKS01A2_MOTION_SENSOR_GetFullScale(Instance, MOTION_GYRO, &fullScale))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: ERROR\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: %d dps\r\n", (int)Instance, (int)fullScale);
-//    }
+    if (IKS01A2_MOTION_SENSOR_GetFullScale(Instance, MOTION_GYRO, &fullScale))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: ERROR\r\n", (int)Instance);
+    }
+    else
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: %d dps\r\n", (int)Instance, (int)fullScale);
+    }
 
-//    printf("%s", dataOut);
-//  }
-//}
+    printf("%s", dataOut);
+  }
+}
 
-///**
-//  * @brief  Handles the magneto axes data getting/sending
-//  * @param  Instance the device instance
-//  * @retval None
-//  */
-//static void Magneto_Sensor_Handler(uint32_t Instance)
-//{
-//  float odr;
-//  int32_t fullScale;
-//  IKS01A2_MOTION_SENSOR_Axes_t magnetic_field;
-//  displayFloatToInt_t out_value;
-//  uint8_t whoami;
+/**
+  * @brief  Handles the magneto axes data getting/sending
+  * @param  Instance the device instance
+  * @retval None
+  */
+static void Magneto_Sensor_Handler(uint32_t Instance)
+{
+  float odr;
+  int32_t fullScale;
+  IKS01A2_MOTION_SENSOR_Axes_t magnetic_field;
+  displayFloatToInt_t out_value;
+  uint8_t whoami;
 
-//  if (IKS01A2_MOTION_SENSOR_GetAxes(Instance, MOTION_MAGNETO, &magnetic_field))
-//  {
-//    snprintf(dataOut, MAX_BUF_SIZE, "\r\nMAG[%d]: Error\r\n", (int)Instance);
-//  }
-//  else
-//  {
-//    snprintf(dataOut, MAX_BUF_SIZE, "\r\nMAG_X[%d]: %d, MAG_Y[%d]: %d, MAG_Z[%d]: %d\r\n", (int)Instance,
-//             (int)magnetic_field.x, (int)Instance, (int)magnetic_field.y, (int)Instance, (int)magnetic_field.z);
-//  }
+  if (IKS01A2_MOTION_SENSOR_GetAxes(Instance, MOTION_MAGNETO, &magnetic_field))
+  {
+    snprintf(dataOut, MAX_BUF_SIZE, "\r\nMAG[%d]: Error\r\n", (int)Instance);
+  }
+  else
+  {
+    snprintf(dataOut, MAX_BUF_SIZE, "\r\nMAG_X[%d]: %d, MAG_Y[%d]: %d, MAG_Z[%d]: %d\r\n", (int)Instance,
+             (int)magnetic_field.x, (int)Instance, (int)magnetic_field.y, (int)Instance, (int)magnetic_field.z);
+  }
 
-//  printf("%s", dataOut);
+  printf("%s", dataOut);
 
-//  if (verbose == 1)
-//  {
-//    if (IKS01A2_MOTION_SENSOR_ReadID(Instance, &whoami))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: Error\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: 0x%x\r\n", (int)Instance, (int)whoami);
-//    }
+  if (verbose == 1)
+  {
+    if (IKS01A2_MOTION_SENSOR_ReadID(Instance, &whoami))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: Error\r\n", (int)Instance);
+    }
+    else
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "WHOAMI[%d]: 0x%x\r\n", (int)Instance, (int)whoami);
+    }
 
-//    printf("%s", dataOut);
+    printf("%s", dataOut);
 
-//    if (IKS01A2_MOTION_SENSOR_GetOutputDataRate(Instance, MOTION_MAGNETO, &odr))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: ERROR\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      floatToInt(odr, &out_value, 3);
-//      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: %d.%03d Hz\r\n", (int)Instance, (int)out_value.out_int,
-//               (int)out_value.out_dec);
-//    }
+    if (IKS01A2_MOTION_SENSOR_GetOutputDataRate(Instance, MOTION_MAGNETO, &odr))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: ERROR\r\n", (int)Instance);
+    }
+    else
+    {
+      floatToInt(odr, &out_value, 3);
+      snprintf(dataOut, MAX_BUF_SIZE, "ODR[%d]: %d.%03d Hz\r\n", (int)Instance, (int)out_value.out_int,
+               (int)out_value.out_dec);
+    }
 
-//    printf("%s", dataOut);
+    printf("%s", dataOut);
 
-//    if (IKS01A2_MOTION_SENSOR_GetFullScale(Instance, MOTION_MAGNETO, &fullScale))
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: ERROR\r\n", (int)Instance);
-//    }
-//    else
-//    {
-//      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: %d gauss\r\n", (int)Instance, (int)fullScale);
-//    }
+    if (IKS01A2_MOTION_SENSOR_GetFullScale(Instance, MOTION_MAGNETO, &fullScale))
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: ERROR\r\n", (int)Instance);
+    }
+    else
+    {
+      snprintf(dataOut, MAX_BUF_SIZE, "FS[%d]: %d gauss\r\n", (int)Instance, (int)fullScale);
+    }
 
-//    printf("%s", dataOut);
-//  }
-//}
+    printf("%s", dataOut);
+  }
+}
 
 /**
   * @brief  Handles the temperature data getting/sending

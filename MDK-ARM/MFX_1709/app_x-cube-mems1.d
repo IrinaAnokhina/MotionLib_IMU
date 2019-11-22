@@ -37,12 +37,13 @@ mfx_1709\app_x-cube-mems1.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_t
 mfx_1709\app_x-cube-mems1.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo.h
 mfx_1709\app_x-cube-mems1.o: ../Inc/stm32f4xx_nucleo_conf.h
-mfx_1709\app_x-cube-mems1.o: ../Inc/stm32f4xx_nucleo_errno.h
+mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo_errno.h
 mfx_1709\app_x-cube-mems1.o: ../Inc/main.h
 mfx_1709\app_x-cube-mems1.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/IKS01A2/iks01a2_motion_sensors.h
 mfx_1709\app_x-cube-mems1.o: ../Inc/iks01a2_conf.h
 mfx_1709\app_x-cube-mems1.o: ../Inc/stm32f4xx_nucleo_bus.h
+mfx_1709\app_x-cube-mems1.o: ../Inc/stm32f4xx_nucleo_errno.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/Components/Common/motion_sensor.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/Components/lsm6dsl/lsm6dsl.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/Components/lsm6dsl/lsm6dsl_reg.h
@@ -57,7 +58,3 @@ mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/Components/lps22hb/lps22hb.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/Components/lps22hb/lps22hb_reg.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/Components/hts221/hts221.h
 mfx_1709\app_x-cube-mems1.o: ../Drivers/BSP/Components/hts221/hts221_reg.h
-mfx_1709\app_x-cube-mems1.o: ../Inc/Sensor.h
-mfx_1709\app_x-cube-mems1.o: ../Inc/MotionFX_Manager.h
-mfx_1709\app_x-cube-mems1.o: ..\Middlewares\ST\STM32_MotionFX_Library\Inc\motion_fx.h
-mfx_1709\app_x-cube-mems1.o: ../Inc/tm_stm32_ahrs_imu.h

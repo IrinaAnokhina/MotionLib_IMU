@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F401xE,USE_HAL_DRIVER,USE_STM32F4XX_NUCLEO,USE_IKS01A2</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;../Drivers/BSP/STM32F4xx_Nucleo;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;../Drivers/BSP/Components/lsm6dsl/;../Drivers/BSP/Components/lsm303agr/;../Drivers/BSP/Components/hts221/;../Drivers/BSP/Components/lps22hb/;../Drivers/BSP/IKS01A2/;../Drivers/BSP/Components/Common/;..\Middlewares\ST\STM32_MotionFX_Library\Inc;..\User</IncludePath>
+              <IncludePath>../Inc;  ../Drivers/BSP/STM32F4xx_Nucleo;  ../Drivers/STM32F4xx_HAL_Driver/Inc;  ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;  ../Drivers/CMSIS/Include;  ../Drivers/BSP/Components/lsm6dsl/;  ../Drivers/BSP/Components/lsm303agr/;  ../Drivers/BSP/Components/hts221/;  ../Drivers/BSP/Components/lps22hb/;  ../Drivers/BSP/IKS01A2/;  ../Drivers/BSP/Components/Common/;  ..\Middlewares\ST\STM32_MotionFX_Library\Inc;  ..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -403,6 +403,31 @@
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
+              <FileName>Sensor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Sensor.c</FilePath>
+            </File>
+            <File>
+              <FileName>MotionFX_Manager.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\MotionFX_Manager.c</FilePath>
+            </File>
+            <File>
+              <FileName>MahonyAHRS.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\MahonyAHRS.c</FilePath>
+            </File>
+            <File>
+              <FileName>tm_stm32_ahrs_imu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\tm_stm32_ahrs_imu.c</FilePath>
+            </File>
+            <File>
+              <FileName>Oth_dev.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\Oth_dev.c</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/main.c</FilePath>
@@ -423,9 +448,19 @@
               <FilePath>../Src/app_x-cube-mems1.c</FilePath>
             </File>
             <File>
+              <FileName>sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/sys.c</FilePath>
+            </File>
+            <File>
               <FileName>tim.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>usart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/usart.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_nucleo_bus.c</FileName>
@@ -442,26 +477,6 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
-            <File>
-              <FileName>Sensor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\Sensor.c</FilePath>
-            </File>
-            <File>
-              <FileName>MotionFX_Manager.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\MotionFX_Manager.c</FilePath>
-            </File>
-            <File>
-              <FileName>MahonyAHRS.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\MahonyAHRS.c</FilePath>
-            </File>
-            <File>
-              <FileName>tm_stm32_ahrs_imu.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\tm_stm32_ahrs_imu.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -471,6 +486,16 @@
               <FileName>stm32f4xx_nucleo.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Drivers/CMSIS</GroupName>
+          <Files>
+            <File>
+              <FileName>system_stm32f4xx.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/system_stm32f4xx.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -486,26 +511,6 @@
               <FileName>stm32f4xx_hal_i2c_ex.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_i2c_ex.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_hal_uart.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_hal_crc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_hal_tim.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_hal_tim_ex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_hal_rcc.c</FileName>
@@ -572,41 +577,34 @@
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_exti.c</FilePath>
             </File>
+            <File>
+              <FileName>stm32f4xx_hal_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_tim_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
-          <GroupName>Drivers/CMSIS</GroupName>
-          <Files>
-            <File>
-              <FileName>system_stm32f4xx.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/system_stm32f4xx.c</FilePath>
-            </File>
-          </Files>
+          <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
           <GroupName>Drivers/BSP/Components</GroupName>
           <Files>
-            <File>
-              <FileName>lsm6dsl_reg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/BSP/Components/lsm6dsl/lsm6dsl_reg.c</FilePath>
-            </File>
-            <File>
-              <FileName>lsm6dsl.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/BSP/Components/lsm6dsl/lsm6dsl.c</FilePath>
-            </File>
-            <File>
-              <FileName>lsm303agr_reg.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/BSP/Components/lsm303agr/lsm303agr_reg.c</FilePath>
-            </File>
-            <File>
-              <FileName>lsm303agr.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/BSP/Components/lsm303agr/lsm303agr.c</FilePath>
-            </File>
             <File>
               <FileName>hts221_reg.c</FileName>
               <FileType>1</FileType>
@@ -626,6 +624,26 @@
               <FileName>lps22hb.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/BSP/Components/lps22hb/lps22hb.c</FilePath>
+            </File>
+            <File>
+              <FileName>lsm6dsl_reg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/BSP/Components/lsm6dsl/lsm6dsl_reg.c</FilePath>
+            </File>
+            <File>
+              <FileName>lsm6dsl.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/BSP/Components/lsm6dsl/lsm6dsl.c</FilePath>
+            </File>
+            <File>
+              <FileName>lsm303agr_reg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/BSP/Components/lsm303agr/lsm303agr_reg.c</FilePath>
+            </File>
+            <File>
+              <FileName>lsm303agr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/BSP/Components/lsm303agr/lsm303agr.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -653,9 +671,6 @@
               <FilePath>../Drivers/BSP/IKS01A2/iks01a2_env_sensors_ex.c</FilePath>
             </File>
           </Files>
-        </Group>
-        <Group>
-          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>
