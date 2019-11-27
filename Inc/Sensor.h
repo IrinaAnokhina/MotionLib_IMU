@@ -7,8 +7,8 @@
 #include "iks01a2_motion_sensors.h"
 #include "tm_stm32_ahrs_imu.h"
 
-#define ALGO_FREQ    200U /* Algorithm frequency [Hz] */
-#define ALGO_PERIOD  5   /* Algorithm period [ms] */
+#define ALGO_FREQ    100U /* Algorithm frequency [Hz] */
+#define ALGO_PERIOD  10   /* Algorithm period [ms] */
 #define MOTIONFX_ENGINE_DELTATIME  0.01f
 
 #define FROM_MG_TO_G                    0.001f

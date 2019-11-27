@@ -40,6 +40,7 @@ mfx_1709\main.o: ../Drivers/BSP/STM32F4xx_Nucleo/stm32f4xx_nucleo_errno.h
 mfx_1709\main.o: ../Inc/main.h
 mfx_1709\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 mfx_1709\main.o: ../Inc/crc.h
+mfx_1709\main.o: ../Inc/dma.h
 mfx_1709\main.o: ../Inc/tim.h
 mfx_1709\main.o: ../Inc/usart.h
 mfx_1709\main.o: ../Inc/gpio.h

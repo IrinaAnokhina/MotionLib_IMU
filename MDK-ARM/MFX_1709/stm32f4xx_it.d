@@ -41,3 +41,8 @@ mfx_1709\stm32f4xx_it.o: ../Inc/main.h
 mfx_1709\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 mfx_1709\stm32f4xx_it.o: ../Inc/stm32f4xx_it.h
 mfx_1709\stm32f4xx_it.o: ../Inc/Oth_Dev.h
+mfx_1709\stm32f4xx_it.o: ../Inc/MotionFX_Manager.h
+mfx_1709\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+mfx_1709\stm32f4xx_it.o: ..\Middlewares\ST\STM32_MotionFX_Library\Inc\motion_fx.h
+mfx_1709\stm32f4xx_it.o: ../Inc/tm_stm32_ahrs_imu.h
+mfx_1709\stm32f4xx_it.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\math.h

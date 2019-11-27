@@ -2,6 +2,8 @@
 #define _OTH_DEV_H
 
 #include "stdint.h"
+#include "MotionFX_Manager.h"
+#include "tm_stm32_ahrs_imu.h"
 
 #define BUFFER_SIZE 256
 #define BUFFER_MASK (BUFFER_SIZE - 1)
@@ -27,6 +29,7 @@ uint8_t OutBufferStr();
 uint8_t IsNewData();
 void clearBuf();
 uint8_t read_buf(void);
+void calculate_attitude(void);
 	
 #endif
 

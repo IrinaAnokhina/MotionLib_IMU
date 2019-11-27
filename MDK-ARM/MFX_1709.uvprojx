@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F401xE,USE_HAL_DRIVER,USE_STM32F4XX_NUCLEO,USE_IKS01A2</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;  ../Drivers/BSP/STM32F4xx_Nucleo;  ../Drivers/STM32F4xx_HAL_Driver/Inc;  ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;  ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;  ../Drivers/CMSIS/Include;  ../Drivers/BSP/Components/lsm6dsl/;  ../Drivers/BSP/Components/lsm303agr/;  ../Drivers/BSP/Components/hts221/;  ../Drivers/BSP/Components/lps22hb/;  ../Drivers/BSP/IKS01A2/;  ../Drivers/BSP/Components/Common/;  ..\Middlewares\ST\STM32_MotionFX_Library\Inc;  ..\User</IncludePath>
+              <IncludePath>../Inc;    ../Drivers/BSP/STM32F4xx_Nucleo;    ../Drivers/STM32F4xx_HAL_Driver/Inc;    ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;    ../Drivers/CMSIS/Include;    ../Drivers/BSP/Components/lsm6dsl/;    ../Drivers/BSP/Components/lsm303agr/;    ../Drivers/BSP/Components/hts221/;    ../Drivers/BSP/Components/lps22hb/;    ../Drivers/BSP/IKS01A2/;    ../Drivers/BSP/Components/Common/;    ..\Middlewares\ST\STM32_MotionFX_Library\Inc;    ..\User</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -441,6 +441,11 @@
               <FileName>crc.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>dma.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/dma.c</FilePath>
             </File>
             <File>
               <FileName>app_x-cube-mems1.c</FileName>

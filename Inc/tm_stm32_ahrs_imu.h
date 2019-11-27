@@ -148,6 +148,8 @@ void TM_AHRSIMU_UpdateAHRS(TM_AHRSIMU_t* AHRSIMU, float gx, float gy, float gz, 
 void TM_AHRSIMU_UpdateIMU(TM_AHRSIMU_t* AHRSIMU, float gx, float gy, float gz, float ax, float ay, float az);
 
 void calculateAngles(TM_AHRSIMU_t* AHRSIMU);
+
+void calculate_Angles(TM_AHRSIMU_t* AHRSIMU);
 	
 /**
  * \brief  Sets new gain value for processing

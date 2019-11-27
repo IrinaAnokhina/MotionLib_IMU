@@ -25,6 +25,7 @@
  */
 #include "tm_stm32_ahrs_imu.h"
 
+#define PI 3,1415926535
 /* Calculate 1/sqrt(x) with magic number support */
 static
 float oneOverSqrt(float x) {
@@ -34,13 +35,15 @@ float oneOverSqrt(float x) {
 
 void calculateAngles(TM_AHRSIMU_t* AHRSIMU) {
 	
-	double w = AHRSIMU->_q0;
-double x = AHRSIMU->_q1;
-double y = AHRSIMU->_q2;
-double z = AHRSIMU->_q3;
-    AHRSIMU->Roll = (float) atan2(AHRSIMU->_q0 * AHRSIMU->_q1 + AHRSIMU->_q2 * AHRSIMU->_q3, 0.5f - AHRSIMU->_q1 * AHRSIMU->_q1 - AHRSIMU->_q2 * AHRSIMU->_q2);
+//	double w = AHRSIMU->_q0;
+//double x = AHRSIMU->_q1;
+//double y = AHRSIMU->_q2;
+//double z = AHRSIMU->_q3;
+    AHRSIMU->Roll = (float) atan2(AHRSIMU->_q0 * AHRSIMU->_q1 + AHRSIMU->_q2 * AHRSIMU->_q3, 0.5f - AHRSIMU->_q1 * AHRSIMU->_q1 - 
+			AHRSIMU->_q2 * AHRSIMU->_q2);
     AHRSIMU->Pitch = (float) asin(-2.0f * (AHRSIMU->_q1 * AHRSIMU->_q3 - AHRSIMU->_q0 * AHRSIMU->_q2));
-    AHRSIMU->Yaw = (float) atan2(AHRSIMU->_q1 * AHRSIMU->_q2 + AHRSIMU->_q0 * AHRSIMU->_q3, 0.5f - AHRSIMU->_q2 * AHRSIMU->_q2 - AHRSIMU->_q3 * AHRSIMU->_q3);
+    AHRSIMU->Yaw = (float) atan2(AHRSIMU->_q1 * AHRSIMU->_q2 + AHRSIMU->_q0 * AHRSIMU->_q3, 0.5f - AHRSIMU->_q2 * AHRSIMU->_q2 - 
+			AHRSIMU->_q3 * AHRSIMU->_q3);
 //		AHRSIMU->Yaw = (float)atan2(2.0f * (w * z + x * y), w * w + x * x - y * y - z * z);
     /* Calculate degrees and remove inclination */
     AHRSIMU->Roll *= AHRSIMU_RAD2DEG(1);
@@ -55,7 +58,34 @@ double z = AHRSIMU->_q3;
     }
 }
 
-void TM_AHRSIMU_Init(TM_AHRSIMU_t* AHRSIMU, float beta, float sampleRate, float inclination) {
+void calculate_Angles(TM_AHRSIMU_t* AHRSIMU) 
+	{
+	double sqw = pow(AHRSIMU->_q3, 2);
+    double sqx = pow(AHRSIMU->_q0, 2);
+    double sqy = pow(AHRSIMU->_q1, 2);
+    double sqz = pow(AHRSIMU->_q2, 2);
+	double unit = sqx + sqy + sqz + sqw; // if normalised is one, otherwise is correction factor
+	double test = AHRSIMU->_q0*AHRSIMU->_q1 + AHRSIMU->_q2*AHRSIMU->_q3;
+	if (test > 0.499*unit) { // singularity at north pole
+		AHRSIMU->Yaw = 2 * atan2(AHRSIMU->_q0,AHRSIMU->_q3);
+		AHRSIMU->Pitch = PI/2;
+		AHRSIMU->Roll = 0;
+		return;
+	}
+	if (test < -0.499*unit) { // singularity at south pole
+		AHRSIMU->Yaw = -2 * atan2(AHRSIMU->_q0,AHRSIMU->_q3);
+		AHRSIMU->Pitch = -PI/2;
+		AHRSIMU->Roll = 0;
+		return;
+	}
+    AHRSIMU->Yaw = AHRSIMU_RAD2DEG(atan2(2*AHRSIMU->_q1*AHRSIMU->_q3-2*AHRSIMU->_q0*AHRSIMU->_q3 , sqx - sqy - sqz + sqw));
+	AHRSIMU->Pitch = AHRSIMU_RAD2DEG(asin(2*test/unit));
+	AHRSIMU->Roll = AHRSIMU_RAD2DEG(atan2(2*AHRSIMU->_q0*AHRSIMU->_q3-2*AHRSIMU->_q1*AHRSIMU->_q2 , -sqx + sqy - sqz + sqw));
+	
+}
+	
+void TM_AHRSIMU_Init(TM_AHRSIMU_t* AHRSIMU, float beta, float sampleRate, float inclination) 
+	{
     AHRSIMU->_beta = beta;
     AHRSIMU->_sampleRate = 1 / sampleRate;
     AHRSIMU->Inclination = inclination;

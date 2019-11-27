@@ -9,6 +9,7 @@
 "mfx_1709\main.o"
 "mfx_1709\gpio.o"
 "mfx_1709\crc.o"
+"mfx_1709\dma.o"
 "mfx_1709\app_x-cube-mems1.o"
 "mfx_1709\sys.o"
 "mfx_1709\tim.o"

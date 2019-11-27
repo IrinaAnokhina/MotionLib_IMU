@@ -91,7 +91,7 @@ void MX_MEMS_Process(void)
   
   /* USER CODE END MEMS_Process_PreTreatment */
 
-//  MX_IKS01A2_DataLogTerminal_Process();
+  MX_IKS01A2_DataLogTerminal_Process();
 
   /* USER CODE BEGIN MEMS_Process_PostTreatment */
   

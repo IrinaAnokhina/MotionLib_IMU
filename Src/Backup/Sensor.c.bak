@@ -7,9 +7,12 @@ static IKS01A2_MOTION_SENSOR_Axes_t GyrValue;
 static IKS01A2_MOTION_SENSOR_Axes_t MagValue;
 static IKS01A2_MOTION_SENSOR_Axes_t MagOffset;
 
+extern TM_AHRSIMU_t IMU0;
+extern ATT Attitude;	
 extern UART_HandleTypeDef huart1;
 extern uint8_t transfer_compl;
  MFX_output_t data_out;
+ MFX_output_t data_out0;
 uint8_t send_count = 0;
 TM_AHRSIMU_t IMU;
 static volatile uint8_t MagCalRequest = 0;
@@ -53,12 +56,13 @@ int lib_version_len;
 	
 void Lib_Process(void)
 {
+	uint8_t arr[200];
 	 for (;;)
   {
 		 if (SensorReadRequest == 1U)
     {
       SensorReadRequest = 0;
-			BSP_LED_On(LED2);
+//			BSP_LED_On(LED2);
 			Accelero_Sensor_Handler(IKS01A2_LSM6DSL_0);
       Gyro_Sensor_Handler(IKS01A2_LSM6DSL_0);
 //      Magneto_Sensor_Handler(IKS01A2_LSM303AGR_MAG_0);
@@ -66,23 +70,36 @@ void Lib_Process(void)
       FX_Data_Handler();
 //			IMU_proc();
 //				TM_AHRSIMU_UpdateIMU(&IMU, Gx, Gy, Gz, Ax, Ay, Az);
-			 BSP_LED_Off(LED2);
+//			 BSP_LED_Off(LED2);
 		}
-//		 uint8_t data[64];
-//		
-//			if(++send_count >= 30)
-//				{
-////					sprintf((char*)data, "Ax: %8.3f  Ay: %8.3f  Az: %8.3f  \r\n", Ax, Ay, Az );		
-////		sprintf((char*)data, "R: %8.3f  P: %8.3f  Y: %8.3f  \r\n", IMU.Roll, IMU.Pitch, IMU.Yaw );
-//					sprintf((char*)data, "R: %8.3f  P: %8.3f  Y: %8.3f  \r\n", data_out.rotation_6X[2], data_out.rotation_6X[1], data_out.rotation_6X[0] );
-//			HAL_UART_Transmit_IT(&huart1, data, 40);
-//				}
 		
 		if(transfer_compl)
 		{
 			transfer_compl = 0;
-			read_buf();
+			if(read_buf())
+			{
+				calculate_attitude();
+//				if(++send_count >= 10)
+//				{
+//					sprintf((char*)arr, "R: %8.3f", Attitude.RollDeg);	
+//		sprintf((char*)arr, "R: %d  R: %d P: %d P: %d Y: %d Y: %d \r\n", 
+//			(int16_t)data_out.rotation_6X[2], (int16_t)Attitude.RollDeg, (int16_t)data_out.rotation_6X[1], (int16_t)Attitude.PitchDeg, 
+//		(int16_t)data_out.rotation_6X[0],(int16_t)Attitude.YawDeg );
+		
+			sprintf((char*)arr, "R: %d  R: %d P: %d P: %d Y: %d Y: %d \r\n", 
+			(int16_t)IMU0.Roll, (int16_t)Attitude.RollDeg, (int16_t)IMU0.Pitch, (int16_t)Attitude.PitchDeg, 
+		(int16_t)IMU0.Yaw,(int16_t)Attitude.YawDeg );
+			
+//			sprintf((char*)arr, "q0: %8.3f  q0: %8.3f q1: %8.3f q1: %8.3f q2: %8.3f q2: %8.3f, q3: %8.3f, q3: %8.3f \r\n", 
+//			data_out0.quaternion_6X[0], Attitude.q0, data_out0.quaternion_6X[1], Attitude.q1, 
+//		data_out0.quaternion_6X[2], Attitude.q2, data_out0.quaternion_6X[3], Attitude.q3 );	
+		
+		HAL_UART_Transmit(&huart1, arr, 60, 10);
+//		HAL_Delay(100);
+//					send_count = 0;
+//	}
 		}
+}	
 	}
 }
 
@@ -126,9 +143,9 @@ void IMU_proc(void)
         data_in.acc[1] = (float)AccValue.y * FROM_MG_TO_G;
         data_in.acc[2] = (float)AccValue.z * FROM_MG_TO_G;
 
-//        data_in.mag[0] = (float)MagValue.x * FROM_MGAUSS_TO_UT50;
-//        data_in.mag[1] = (float)MagValue.y * FROM_MGAUSS_TO_UT50;
-//        data_in.mag[2] = (float)MagValue.z * FROM_MGAUSS_TO_UT50;
+//				data_in.mag[0] = (float)MagValue.x * FROM_MGAUSS_TO_UT50;
+//				data_in.mag[1] = (float)MagValue.y * FROM_MGAUSS_TO_UT50;
+//				data_in.mag[2] = (float)MagValue.z * FROM_MGAUSS_TO_UT50;
 
         /* Run Sensor Fusion algorithm */
         BSP_LED_On(LED2);
@@ -233,3 +250,4 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     Lib_ReadRequest();
   }
 }
+

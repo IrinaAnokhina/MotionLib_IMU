@@ -2,10 +2,13 @@
 #include "string.h"
 
 ATT Attitude;	
+TM_AHRSIMU_t IMU0;
 uint8_t buffer[BUFFER_SIZE];	/**< fifo buffer for received data. */
 volatile uint8_t tail;					/**< index for writing to buffer. */
 volatile uint8_t head;					/**< index for reading from buffer. */
 uint8_t transfer_compl;
+extern MFX_output_t data_out;
+extern MFX_output_t data_out0;
 void InBuffer(uint8_t byte)
 {
 	if(tail == BUFFER_SIZE - 1)
@@ -68,4 +71,81 @@ uint8_t read_buf()
 		return 0;
 	return 1;
 }
+	
+static 
+	void Quaternion_product(MFX_output_t* ourDev, ATT* othDev)
+	{
+		float q0, q1, q2, q3, recipNorm;
+	
 		
+	/*Quaternion production. Q3 = AxB*/
+	
+	IMU0._q0 = ourDev->quaternion_6X[0]*othDev->q0 - ourDev->quaternion_6X[1]*othDev->q1 - 
+						 ourDev->quaternion_6X[2]*othDev->q2 - ourDev->quaternion_6X[3]*othDev->q3;
+		
+	IMU0._q1 = ourDev->quaternion_6X[0]*othDev->q1 + ourDev->quaternion_6X[1]*othDev->q0 + 
+						 ourDev->quaternion_6X[2]*othDev->q3 - ourDev->quaternion_6X[3]*othDev->q2;
+		
+	IMU0._q2 = ourDev->quaternion_6X[0]*othDev->q2 - ourDev->quaternion_6X[1]*othDev->q3 + 
+						 ourDev->quaternion_6X[2]*othDev->q0 + ourDev->quaternion_6X[3]*othDev->q1;
+		
+	IMU0._q3 = ourDev->quaternion_6X[0]*othDev->q3 + ourDev->quaternion_6X[1]*othDev->q2 - 
+						 ourDev->quaternion_6X[2]*othDev->q1 + ourDev->quaternion_6X[3]*othDev->q0;
+	}
+	
+	void Euler2Quaternionrotate(MFX_output_t* ourDev) 
+	{
+		/* q[0] = vx, q[1] = vy, q[2] = vz, q[3] = w */ 
+		// Assuming the angles are in radians.
+    
+		
+		double c1 = cos(AHRSIMU_DEG2RAD(ourDev->rotation_6X[0])/2);
+    double s1 = sin(AHRSIMU_DEG2RAD(ourDev->rotation_6X[0])/2);
+    double c2 = cos(AHRSIMU_DEG2RAD(ourDev->rotation_6X[1])/2.0f);
+    double s2 = sin(AHRSIMU_DEG2RAD(ourDev->rotation_6X[1])/2.0f);
+    double c3 = cos(AHRSIMU_DEG2RAD(ourDev->rotation_6X[2])/2.0f);
+    double s3 = sin(AHRSIMU_DEG2RAD(ourDev->rotation_6X[2])/2.0f);
+    double c1c2 = c1*c2;
+    double s1s2 = s1*s2;
+		
+   ourDev->quaternion_6X[3] = c1c2*c3 + s1s2*s3;
+  	ourDev->quaternion_6X[0] = c1c2*s3 - s1s2*c3;
+	  ourDev->quaternion_6X[1] = c1*s2*c3 + s1*c2*s3;	
+	  ourDev->quaternion_6X[2] = s1*c2*c3 - c1*s2*s3;
+  }
+	
+	void Euler2Quaternion_rotate(ATT* othDev) 
+	{
+		/* q[0] = vx, q[1] = vy, q[2] = vz, q[3] = w */ 
+		// Assuming the angles are in radians.
+    
+		
+		double c1 = cos(AHRSIMU_DEG2RAD(othDev->YawDeg)/2);
+    double s1 = sin(AHRSIMU_DEG2RAD(othDev->YawDeg)/2);
+    double c2 = cos(AHRSIMU_DEG2RAD(othDev->PitchDeg)/2.0f);
+    double s2 = sin(AHRSIMU_DEG2RAD(othDev->PitchDeg)/2.0f);
+    double c3 = cos(AHRSIMU_DEG2RAD(othDev->RollDeg)/2.0f);
+    double s3 = sin(AHRSIMU_DEG2RAD(othDev->RollDeg)/2.0f);
+    double c1c2 = c1*c2;
+    double s1s2 = s1*s2;
+		
+   othDev->q3 = c1c2*c3 + s1s2*s3;
+  	othDev->q0 = c1c2*s3 - s1s2*c3;
+	  othDev->q1 = c1*s2*c3 + s1*c2*s3;	
+	  othDev->q2 = s1*c2*c3 - c1*s2*s3;
+  }
+	
+void calculate_attitude()
+{
+	data_out0.rotation_6X[0] = data_out.rotation_6X[0];
+	data_out0.rotation_6X[1] = data_out.rotation_6X[1];
+	data_out0.rotation_6X[2] = data_out.rotation_6X[2];
+	
+	Euler2Quaternionrotate(&data_out0);
+	Euler2Quaternion_rotate(&Attitude);
+	Quaternion_product(&data_out0, &Attitude);
+	calculate_Angles(&IMU0);
+}
+
+
+	
