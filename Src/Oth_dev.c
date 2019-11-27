@@ -72,7 +72,28 @@ uint8_t read_buf()
 		return 0;
 	return 1;
 }
-	
+
+float normalize(const TM_AHRSIMU_t* IMU0)
+{
+	return oneOverSqrt(pow(IMU0->_q0, 2) + pow(IMU0->_q1, 2) + pow(IMU0->_q2, 2) + pow(IMU0->_q3, 2));
+}
+
+static 
+	void Quaternion_Addition(MFX_output_t* ourDev, MFX_output_t* othDev)
+	{
+		IMU0._q0 = ourDev->quaternion_6X[0] + othDev->quaternion_6X[0]; 
+		IMU0._q1 = ourDev->quaternion_6X[1] + othDev->quaternion_6X[1]; 
+		IMU0._q2 = ourDev->quaternion_6X[2] + othDev->quaternion_6X[2]; 
+		IMU0._q3 = ourDev->quaternion_6X[3] + othDev->quaternion_6X[3];
+		
+		float norm = normalize(&IMU0);
+		IMU0._q0 *= norm;
+		IMU0._q1 *= norm;
+		IMU0._q2 *= norm;
+		IMU0._q3 *= norm;
+		
+	}
+
 static 
 	void Quaternion_product(MFX_output_t* ourDev, ATT* othDev)
 	{
@@ -113,7 +134,20 @@ static
 		
 	IMU0._q3 = ourDev->quaternion_6X[0]*othDev->quaternion_6X[3] + ourDev->quaternion_6X[1]*othDev->quaternion_6X[2] - 
 						 ourDev->quaternion_6X[2]*othDev->quaternion_6X[1] + ourDev->quaternion_6X[3]*othDev->quaternion_6X[0];
-	}
+		
+//	IMU0._q3 = 	ourDev->quaternion_6X[3]*othDev->quaternion_6X[3] - ourDev->quaternion_6X[0]*othDev->quaternion_6X[0] - 
+//							ourDev->quaternion_6X[1]*othDev->quaternion_6X[1] - ourDev->quaternion_6X[2]*othDev->quaternion_6X[2];
+//		
+//		IMU0._q0 = ourDev->quaternion_6X[3]*othDev->quaternion_6X[0] + ourDev->quaternion_6X[0]*othDev->quaternion_6X[3] + 
+//						 ourDev->quaternion_6X[1]*othDev->quaternion_6X[2] - ourDev->quaternion_6X[2]*othDev->quaternion_6X[1];
+//						 
+//	IMU0._q1 = ourDev->quaternion_6X[3]*othDev->quaternion_6X[1] - ourDev->quaternion_6X[0]*othDev->quaternion_6X[2] + 
+//						 ourDev->quaternion_6X[1]*othDev->quaternion_6X[3] + ourDev->quaternion_6X[2]*othDev->quaternion_6X[0];
+//		
+//	IMU0._q2 = ourDev->quaternion_6X[3]*othDev->quaternion_6X[2] + ourDev->quaternion_6X[0]*othDev->quaternion_6X[1] + 
+//						 ourDev->quaternion_6X[1]*othDev->quaternion_6X[0] + ourDev->quaternion_6X[2]*othDev->quaternion_6X[3];					 
+	
+}
 	
 	void Euler2Quaternionrotate(MFX_output_t* ourDev) 
 	{
@@ -157,32 +191,79 @@ static
 	  othDev->q2 = s1*c2*c3 - c1*s2*s3;
   }
 	
+	void calculate_difference(MFX_output_t* ourDev, MFX_output_t* othDev)
+	{
+		IMU0.Yaw = ourDev->rotation_6X[0] - othDev->rotation_6X[0];
+//		if(IMU0.Yaw < 0.0)
+//			IMU0.Yaw = 360.0 + IMU0.Yaw;
+		 if(IMU0.Yaw > 360.0)
+			IMU0.Yaw -= 360.0;
+		
+		IMU0.Pitch = ourDev->rotation_6X[1] - othDev->rotation_6X[1];
+			if(IMU0.Pitch < -180.0)
+			IMU0.Pitch = 180.0 -(-180.0 - IMU0.Pitch);
+		else if(IMU0.Pitch > 180.0)
+			IMU0.Pitch = -180.0 +(IMU0.Pitch - 180.0);
+		
+		IMU0.Roll = ourDev->rotation_6X[2] - othDev->rotation_6X[2];
+			if(IMU0.Roll < -180.0)
+			IMU0.Roll = 180.0 -(-180.0 - IMU0.Roll);
+		else if(IMU0.Roll > 180.0)
+			IMU0.Roll = -180.0 +(IMU0.Roll - 180.0);
+		
+	}
+	
+	void calculate_Difference(MFX_output_t* ourDev, ATT* othDev)
+	{
+		IMU0.Yaw = ourDev->rotation_6X[0] - othDev->YawDeg;
+//		if(IMU0.Yaw < 0.0)
+//			IMU0.Yaw = 360.0 + IMU0.Yaw;
+		 if(IMU0.Yaw > 360.0)
+			IMU0.Yaw -= 360.0;
+		
+		IMU0.Pitch = ourDev->rotation_6X[1] - othDev->PitchDeg;
+			if(IMU0.Pitch < -180.0)
+			IMU0.Pitch = 180.0 -(-180.0 - IMU0.Pitch);
+		else if(IMU0.Pitch > 180.0)
+			IMU0.Pitch = -180.0 +(IMU0.Pitch - 180.0);
+		
+		IMU0.Roll = ourDev->rotation_6X[2] - othDev->RollDeg;
+			if(IMU0.Roll < -180.0)
+			IMU0.Roll = 180.0 -(-180.0 - IMU0.Roll);
+		else if(IMU0.Roll > 180.0)
+			IMU0.Roll = -180.0 +(IMU0.Roll - 180.0);
+		
+	}
+	
 void calculate_attitude()
 {
 	data_out0.rotation_6X[0] = data_out.rotation_6X[0];
 	data_out0.rotation_6X[1] = data_out.rotation_6X[1];
 	data_out0.rotation_6X[2] = data_out.rotation_6X[2];
 	
-	Euler2Quaternionrotate(&data_out0);
+//	Euler2Quaternionrotate(&data_out0);
 	
-	data_out2.rotation_6X[0] = data_out0.rotation_6X[0] + 30.0;
-	if(data_out2.rotation_6X[0] > 360.0)
-		data_out2.rotation_6X[0] = data_out2.rotation_6X[0] - 360.0;
+//	data_out2.rotation_6X[0] = data_out0.rotation_6X[0] + 30.0;
+//	if(data_out2.rotation_6X[0] > 360.0)
+//		data_out2.rotation_6X[0] = data_out2.rotation_6X[0] - 360.0;
+//	
+//	data_out2.rotation_6X[1] = data_out0.rotation_6X[1] + 30.0;
+//	if(data_out2.rotation_6X[1] > 180.0)
+//		data_out2.rotation_6X[1] = -180.0 + data_out2.rotation_6X[1] - 180.0;
+//	
+//	data_out2.rotation_6X[2] = data_out0.rotation_6X[2] + 30.0;
+//	if(data_out2.rotation_6X[2] > 180.0)
+//		data_out2.rotation_6X[2] = -180.0 + data_out2.rotation_6X[2] - 180.0;
 	
-	data_out2.rotation_6X[1] = data_out0.rotation_6X[1] + 30.0;
-	if(data_out2.rotation_6X[1] > 180.0)
-		data_out2.rotation_6X[1] = -180.0 + data_out2.rotation_6X[1] - 180.0;
+	calculate_Difference(&data_out0, &Attitude);
 	
-	data_out2.rotation_6X[2] = data_out0.rotation_6X[2] + 30.0;
-	if(data_out2.rotation_6X[2] > 180.0)
-		data_out2.rotation_6X[2] = -180.0 + data_out2.rotation_6X[2] - 180.0;
-	
-	Euler2Quaternionrotate(&data_out2);
-	Quaternion_Product(&data_out0, &data_out2);
+//	calculate_difference(&data_out0, &data_out2);
+//	Euler2Quaternionrotate(&data_out2);
+//	Quaternion_Addition(&data_out0, &data_out2);
 	
 //	Euler2Quaternion_rotate(&Attitude);
 //	Quaternion_product(&data_out0, &Attitude);
-	calculate_Angles(&IMU0);
+//	calculate_Angles(&IMU0);
 }
 
 

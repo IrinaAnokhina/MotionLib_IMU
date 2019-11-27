@@ -605,9 +605,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>::CMSIS</GroupName>
-        </Group>
-        <Group>
           <GroupName>Drivers/BSP/Components</GroupName>
           <Files>
             <File>
@@ -676,6 +673,9 @@
               <FilePath>../Drivers/BSP/IKS01A2/iks01a2_env_sensors_ex.c</FilePath>
             </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>::CMSIS</GroupName>
         </Group>
       </Groups>
     </Target>

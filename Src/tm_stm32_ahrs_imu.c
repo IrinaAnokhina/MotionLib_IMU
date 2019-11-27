@@ -27,7 +27,7 @@
 
 #define PI 3,1415926535
 /* Calculate 1/sqrt(x) with magic number support */
-static
+
 float oneOverSqrt(float x) {
     return 1.0f / (float) sqrt(x);
 }
@@ -78,7 +78,7 @@ void calculate_Angles(TM_AHRSIMU_t* AHRSIMU)
 		AHRSIMU->Roll = 0;
 		return;
 	}
-    AHRSIMU->Yaw = AHRSIMU_RAD2DEG(atan2(2*AHRSIMU->_q1*AHRSIMU->_q3-2*AHRSIMU->_q0*AHRSIMU->_q3 , sqx - sqy - sqz + sqw));
+    AHRSIMU->Yaw = AHRSIMU_RAD2DEG(atan2(2*AHRSIMU->_q1*AHRSIMU->_q3-2*AHRSIMU->_q0*AHRSIMU->_q2 , sqx - sqy - sqz + sqw));
 	AHRSIMU->Pitch = AHRSIMU_RAD2DEG(asin(2*test/unit));
 	AHRSIMU->Roll = AHRSIMU_RAD2DEG(atan2(2*AHRSIMU->_q0*AHRSIMU->_q3-2*AHRSIMU->_q1*AHRSIMU->_q2 , -sqx + sqy - sqz + sqw));
 	

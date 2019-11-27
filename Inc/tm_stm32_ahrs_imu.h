@@ -151,6 +151,8 @@ void calculateAngles(TM_AHRSIMU_t* AHRSIMU);
 
 void calculate_Angles(TM_AHRSIMU_t* AHRSIMU);
 	
+	float oneOverSqrt(float x);
+	
 /**
  * \brief  Sets new gain value for processing
  * \param  *AHRSIMU: Pointer to \ref TM_AHRSIMU_t empty structure

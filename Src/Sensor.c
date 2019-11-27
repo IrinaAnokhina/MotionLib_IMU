@@ -70,6 +70,7 @@ void Lib_Process(void)
 //      Magneto_Sensor_Handler(IKS01A2_LSM303AGR_MAG_0);
 			 /* Sensor Fusion specific part */
       FX_Data_Handler();
+//			calculate_attitude();
 //			IMU_proc();
 //				TM_AHRSIMU_UpdateIMU(&IMU, Gx, Gy, Gz, Ax, Ay, Az);
 //			 BSP_LED_Off(LED2);
