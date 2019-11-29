@@ -70,18 +70,18 @@ void Lib_Process(void)
 //      Magneto_Sensor_Handler(IKS01A2_LSM303AGR_MAG_0);
 			 /* Sensor Fusion specific part */
       FX_Data_Handler();
-//			calculate_attitude();
+			calculate_attitude();
 //			IMU_proc();
 //				TM_AHRSIMU_UpdateIMU(&IMU, Gx, Gy, Gz, Ax, Ay, Az);
 //			 BSP_LED_Off(LED2);
 		}
 		
-		if(transfer_compl)
-		{
-			transfer_compl = 0;
-			if(read_buf())
-			{
-				calculate_attitude();
+//		if(transfer_compl)
+//		{
+//			transfer_compl = 0;
+//			if(read_buf())
+//			{
+//				calculate_attitude();
 //				if(++send_count >= 10)
 //				{
 //					sprintf((char*)arr, "R: %8.3f", Attitude.RollDeg);	
@@ -89,20 +89,20 @@ void Lib_Process(void)
 //			(int16_t)data_out.rotation_6X[2], (int16_t)Attitude.RollDeg, (int16_t)data_out.rotation_6X[1], (int16_t)Attitude.PitchDeg, 
 //		(int16_t)data_out.rotation_6X[0],(int16_t)Attitude.YawDeg );
 		
-			data0_sz = sprintf((char*)arr, "R: %d  R: %d P: %d P: %d Y: %d Y: %d \r\n", 
-			(int16_t)IMU0.Roll, (int16_t)Attitude.RollDeg, (int16_t)IMU0.Pitch, (int16_t)Attitude.PitchDeg, 
-		(int16_t)IMU0.Yaw,(int16_t)Attitude.YawDeg );
+//			data0_sz = sprintf((char*)arr, "R: %d  R: %d P: %d P: %d Y: %d Y: %d \r\n", 
+//			(int16_t)IMU0.Roll, (int16_t)Attitude.RollDeg, (int16_t)IMU0.Pitch, (int16_t)Attitude.PitchDeg, 
+//		(int16_t)IMU0.Yaw,(int16_t)Attitude.YawDeg );
 			
 //			data0_sz = sprintf((char*)arr, "q0: %8.3f  q0: %8.3f q1: %8.3f q1: %8.3f q2: %8.3f q2: %8.3f, q3: %8.3f, q3: %8.3f \r\n", 
 //			data_out0.quaternion_6X[0], Attitude.q0, data_out0.quaternion_6X[1], Attitude.q1, 
 //		data_out0.quaternion_6X[2], Attitude.q2, data_out0.quaternion_6X[3], Attitude.q3 );	
 		//if(data0_sz)
-		HAL_UART_Transmit(&huart1, arr, data0_sz,10);
-//		HAL_Delay(100);
+//		HAL_UART_Transmit(&huart1, arr, data0_sz,10);
+
 //					send_count = 0;
 //	}
-		}
-}	
+//		}
+//}	
 	}
 }
 
@@ -138,6 +138,10 @@ void IMU_proc(void)
 #error Not supported platform
 #endif
 
+//				data_in.gyro[0] = 0.0;
+//        data_in.gyro[1] = 0.0;
+//        data_in.gyro[2] = 0.0;
+	
         data_in.gyro[0] = (float)GyrValue.x * FROM_MDPS_TO_DPS;
         data_in.gyro[1] = (float)GyrValue.y * FROM_MDPS_TO_DPS;
         data_in.gyro[2] = (float)GyrValue.z * FROM_MDPS_TO_DPS;
