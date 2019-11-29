@@ -52,55 +52,51 @@ compiling Oth_dev.c...
   		float q0, q1, q2, q3, recipNorm;
 ..\Src\Oth_dev.c(171): warning:  #177-D: variable "recipNorm"  was declared but never referenced
   		float q0, q1, q2, q3, recipNorm;
-..\Src\Oth_dev.c(192): warning:  #177-D: variable "q0"  was declared but never referenced
+..\Src\Oth_dev.c(199): warning:  #177-D: variable "q0"  was declared but never referenced
   		float q0, q1, q2, q3, recipNorm;
-..\Src\Oth_dev.c(192): warning:  #177-D: variable "q1"  was declared but never referenced
+..\Src\Oth_dev.c(199): warning:  #177-D: variable "q1"  was declared but never referenced
   		float q0, q1, q2, q3, recipNorm;
-..\Src\Oth_dev.c(192): warning:  #177-D: variable "q2"  was declared but never referenced
+..\Src\Oth_dev.c(199): warning:  #177-D: variable "q2"  was declared but never referenced
   		float q0, q1, q2, q3, recipNorm;
-..\Src\Oth_dev.c(192): warning:  #177-D: variable "q3"  was declared but never referenced
+..\Src\Oth_dev.c(199): warning:  #177-D: variable "q3"  was declared but never referenced
   		float q0, q1, q2, q3, recipNorm;
-..\Src\Oth_dev.c(192): warning:  #177-D: variable "recipNorm"  was declared but never referenced
+..\Src\Oth_dev.c(199): warning:  #177-D: variable "recipNorm"  was declared but never referenced
   		float q0, q1, q2, q3, recipNorm;
-..\Src\Oth_dev.c(283): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  		 if(IMU0.Yaw > 360.0)
-..\Src\Oth_dev.c(284): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  			IMU0.Yaw -= 360.0;
-..\Src\Oth_dev.c(289): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  		else if(IMU0.Pitch > 180.0)
 ..\Src\Oth_dev.c(290): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  			IMU0.Pitch = -180.0 +(IMU0.Pitch - 180.0);
-..\Src\Oth_dev.c(295): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  		else if(IMU0.Roll > 180.0)
-..\Src\Oth_dev.c(296): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  			IMU0.Roll = -180.0 +(IMU0.Roll - 180.0);
-..\Src\Oth_dev.c(305): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   		 if(IMU0.Yaw > 360.0)
-..\Src\Oth_dev.c(306): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Src\Oth_dev.c(291): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   			IMU0.Yaw -= 360.0;
-..\Src\Oth_dev.c(311): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Src\Oth_dev.c(296): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   		else if(IMU0.Pitch > 180.0)
-..\Src\Oth_dev.c(312): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Src\Oth_dev.c(297): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   			IMU0.Pitch = -180.0 +(IMU0.Pitch - 180.0);
-..\Src\Oth_dev.c(317): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Src\Oth_dev.c(302): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   		else if(IMU0.Roll > 180.0)
-..\Src\Oth_dev.c(318): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+..\Src\Oth_dev.c(303): warning:  #1035-D: single-precision operand implicitly converted to double-precision
   			IMU0.Roll = -180.0 +(IMU0.Roll - 180.0);
-..\Src\Oth_dev.c(334): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  	data_out2.rotation_6X[1] = data_out0.rotation_6X[1] + 30.0;
-..\Src\Oth_dev.c(335): warning:  #1035-D: single-precision operand implicitly converted to double-precision
-  	if(data_out2.rotation_6X[1] > 180.0)
-..\Src\Oth_dev.c(361): warning:  #1-D: last line of file ends without a newline
+..\Src\Oth_dev.c(312): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		 if(IMU0.Yaw > 360.0)
+..\Src\Oth_dev.c(313): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			IMU0.Yaw -= 360.0;
+..\Src\Oth_dev.c(318): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		else if(IMU0.Pitch > 180.0)
+..\Src\Oth_dev.c(319): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			IMU0.Pitch = -180.0 +(IMU0.Pitch - 180.0);
+..\Src\Oth_dev.c(324): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  		else if(IMU0.Roll > 180.0)
+..\Src\Oth_dev.c(325): warning:  #1035-D: single-precision operand implicitly converted to double-precision
+  			IMU0.Roll = -180.0 +(IMU0.Roll - 180.0);
+..\Src\Oth_dev.c(370): warning:  #1-D: last line of file ends without a newline
   	
 ..\Src\Oth_dev.c(82): warning:  #177-D: function "Quaternion_Addition"  was declared but never referenced
   	void Quaternion_Addition(MFX_output_t* ourDev, MFX_output_t* othDev)
-..\Src\Oth_dev.c(169): warning:  #177-D: function "Quaternion_product"  was declared but never referenced
-  	void Quaternion_product(MFX_output_t* ourDev, ATT* othDev)
-..\Src\Oth_dev.c: 34 warnings, 0 errors
+..\Src\Oth_dev.c(197): warning:  #177-D: function "Quaternion_Product"  was declared but never referenced
+  	void Quaternion_Product(MFX_output_t* ourDev, MFX_output_t* othDev)
+..\Src\Oth_dev.c: 32 warnings, 0 errors
 linking...
-Program Size: Code=78292 RO-data=1864 RW-data=5048 ZI-data=38632  
+Program Size: Code=79700 RO-data=1864 RW-data=5048 ZI-data=38888  
 FromELF: creating hex file...
-"MFX_1709\MFX_1709.axf" - 0 Error(s), 34 Warning(s).
+"MFX_1709\MFX_1709.axf" - 0 Error(s), 32 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -123,7 +119,7 @@ Package Vendor: Keil
 <h2>Collection of Component Files used:</h2>
 
    * Component: ARM::CMSIS:CORE:5.2.0
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:03
 </pre>
 </body>
 </html>

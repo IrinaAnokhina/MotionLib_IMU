@@ -7,9 +7,11 @@ static IKS01A2_MOTION_SENSOR_Axes_t GyrValue;
 static IKS01A2_MOTION_SENSOR_Axes_t MagValue;
 static IKS01A2_MOTION_SENSOR_Axes_t MagOffset;
 
+uint8_t BufRead[256];
 extern TM_AHRSIMU_t IMU0;
 extern ATT Attitude;	
 extern UART_HandleTypeDef huart1;
+extern UART_HandleTypeDef huart6;
 extern uint8_t transfer_compl;
  MFX_output_t data_out;
  MFX_output_t data_out0;
@@ -52,7 +54,7 @@ int lib_version_len;
 	HAL_TIM_Base_Start_IT(AlgoTimHandle);
 	/*Start fusion calibration */
 	 MotionFX_manager_start_6X();
-		
+	HAL_UART_Receive_DMA(&huart6 , BufRead,sizeof(Attitude));	
 		}
 	
 void Lib_Process(void)
@@ -64,24 +66,24 @@ void Lib_Process(void)
 		 if (SensorReadRequest == 1U)
     {
       SensorReadRequest = 0;
-//			BSP_LED_On(LED2);
+			BSP_LED_On(LED2);
 			Accelero_Sensor_Handler(IKS01A2_LSM6DSL_0);
       Gyro_Sensor_Handler(IKS01A2_LSM6DSL_0);
 //      Magneto_Sensor_Handler(IKS01A2_LSM303AGR_MAG_0);
 			 /* Sensor Fusion specific part */
       FX_Data_Handler();
-			calculate_attitude();
+//			calculate_attitude();
 //			IMU_proc();
 //				TM_AHRSIMU_UpdateIMU(&IMU, Gx, Gy, Gz, Ax, Ay, Az);
-//			 BSP_LED_Off(LED2);
+			 BSP_LED_Off(LED2);
 		}
-		
+		else{
 //		if(transfer_compl)
 //		{
 //			transfer_compl = 0;
 //			if(read_buf())
 //			{
-//				calculate_attitude();
+				calculate_attitude();
 //				if(++send_count >= 10)
 //				{
 //					sprintf((char*)arr, "R: %8.3f", Attitude.RollDeg);	
@@ -89,16 +91,16 @@ void Lib_Process(void)
 //			(int16_t)data_out.rotation_6X[2], (int16_t)Attitude.RollDeg, (int16_t)data_out.rotation_6X[1], (int16_t)Attitude.PitchDeg, 
 //		(int16_t)data_out.rotation_6X[0],(int16_t)Attitude.YawDeg );
 		
-//			data0_sz = sprintf((char*)arr, "R: %d  R: %d P: %d P: %d Y: %d Y: %d \r\n", 
-//			(int16_t)IMU0.Roll, (int16_t)Attitude.RollDeg, (int16_t)IMU0.Pitch, (int16_t)Attitude.PitchDeg, 
-//		(int16_t)IMU0.Yaw,(int16_t)Attitude.YawDeg );
+			data0_sz = sprintf((char*)arr, "R: %d  R: %d P: %d P: %d Y: %d Y: %d \r\n", 
+			(int16_t)IMU0.Roll, (int16_t)Attitude.RollDeg, (int16_t)IMU0.Pitch, (int16_t)Attitude.PitchDeg, 
+		(int16_t)IMU0.Yaw,(int16_t)Attitude.YawDeg );
 			
 //			data0_sz = sprintf((char*)arr, "q0: %8.3f  q0: %8.3f q1: %8.3f q1: %8.3f q2: %8.3f q2: %8.3f, q3: %8.3f, q3: %8.3f \r\n", 
 //			data_out0.quaternion_6X[0], Attitude.q0, data_out0.quaternion_6X[1], Attitude.q1, 
 //		data_out0.quaternion_6X[2], Attitude.q2, data_out0.quaternion_6X[3], Attitude.q3 );	
 		//if(data0_sz)
-//		HAL_UART_Transmit(&huart1, arr, data0_sz,10);
-
+		HAL_UART_Transmit(&huart1, arr, data0_sz,10);
+		}
 //					send_count = 0;
 //	}
 //		}
@@ -155,9 +157,9 @@ void IMU_proc(void)
 //				data_in.mag[2] = (float)MagValue.z * FROM_MGAUSS_TO_UT50;
 
         /* Run Sensor Fusion algorithm */
-        BSP_LED_On(LED2);
+//        BSP_LED_On(LED2);
         MotionFX_manager_run(pdata_in, pdata_out, MOTIONFX_ENGINE_DELTATIME);
-        BSP_LED_Off(LED2);
+//        BSP_LED_Off(LED2);
 
 
 }
@@ -258,3 +260,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
   }
 }
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart6)
+{
+	memcpy(&Attitude, &BufRead, sizeof(Attitude));
+}

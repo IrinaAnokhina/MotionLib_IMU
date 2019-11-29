@@ -170,20 +170,27 @@ static
 	{
 		float q0, q1, q2, q3, recipNorm;
 	
+			float pow_norma = pow(sqrt(pow(ourDev->quaternion_6X[0], 2) + pow(ourDev->quaternion_6X[1], 2) + 
+			pow(ourDev->quaternion_6X[2], 2) + pow(ourDev->quaternion_6X[3], 2)), 2);
 		
+		ourDev->quaternion_6X[0] = -(ourDev->quaternion_6X[0]) / pow_norma;
+		ourDev->quaternion_6X[1] = -(ourDev->quaternion_6X[1]) / pow_norma;
+		ourDev->quaternion_6X[2] = -(ourDev->quaternion_6X[2]) / pow_norma;
+		ourDev->quaternion_6X[2] /= pow_norma;
+			
 	/*Quaternion production. Q3 = AxB*/
 	
-	IMU0._q0 = ourDev->quaternion_6X[0]*othDev->q0 - ourDev->quaternion_6X[1]*othDev->q1 - 
-						 ourDev->quaternion_6X[2]*othDev->q2 - ourDev->quaternion_6X[3]*othDev->q3;
+	IMU0._q0 = ourDev->quaternion_6X[0]*othDev->q3 + ourDev->quaternion_6X[1]*othDev->q2 - 
+						 ourDev->quaternion_6X[2]*othDev->q1 + ourDev->quaternion_6X[3]*othDev->q0;
 		
-	IMU0._q1 = ourDev->quaternion_6X[0]*othDev->q1 + ourDev->quaternion_6X[1]*othDev->q0 + 
-						 ourDev->quaternion_6X[2]*othDev->q3 - ourDev->quaternion_6X[3]*othDev->q2;
-		
-	IMU0._q2 = ourDev->quaternion_6X[0]*othDev->q2 - ourDev->quaternion_6X[1]*othDev->q3 + 
+	IMU0._q1 = ourDev->quaternion_6X[0]*othDev->q2 + ourDev->quaternion_6X[1]*othDev->q3 + 
 						 ourDev->quaternion_6X[2]*othDev->q0 + ourDev->quaternion_6X[3]*othDev->q1;
 		
-	IMU0._q3 = ourDev->quaternion_6X[0]*othDev->q3 + ourDev->quaternion_6X[1]*othDev->q2 - 
-						 ourDev->quaternion_6X[2]*othDev->q1 + ourDev->quaternion_6X[3]*othDev->q0;
+	IMU0._q2 = ourDev->quaternion_6X[0]*othDev->q1 - ourDev->quaternion_6X[1]*othDev->q0 + 
+						 ourDev->quaternion_6X[2]*othDev->q3 + ourDev->quaternion_6X[3]*othDev->q2;
+		
+	IMU0._q3 = ourDev->quaternion_6X[0]*othDev->q0 - ourDev->quaternion_6X[1]*othDev->q1 - 
+						 ourDev->quaternion_6X[2]*othDev->q2 + ourDev->quaternion_6X[3]*othDev->q3;
 	}
 	
 	static 
@@ -196,10 +203,10 @@ static
 		float pow_norma = pow(sqrt(pow(ourDev->quaternion_6X[0], 2) + pow(ourDev->quaternion_6X[1], 2) + 
 			pow(ourDev->quaternion_6X[2], 2) + pow(ourDev->quaternion_6X[3], 2)), 2);
 		
-		ourDev->quaternion_6X[0] = -(ourDev->quaternion_6X[0]); // / pow_norma;
-		ourDev->quaternion_6X[1] = -(ourDev->quaternion_6X[1]); // / pow_norma;
-		ourDev->quaternion_6X[2] = -(ourDev->quaternion_6X[2]); // / pow_norma;
-	//	ourDev->quaternion_6X[2] /= pow_norma;
+		ourDev->quaternion_6X[0] = -(ourDev->quaternion_6X[0]) / pow_norma;
+		ourDev->quaternion_6X[1] = -(ourDev->quaternion_6X[1]) / pow_norma;
+		ourDev->quaternion_6X[2] = -(ourDev->quaternion_6X[2]) / pow_norma;
+		ourDev->quaternion_6X[2] /= pow_norma;
 		
 		
 		
@@ -327,26 +334,27 @@ void calculate_attitude()
 	
 	Euler2Quaternionrotate(&data_out0);
 	
-	data_out2.rotation_6X[0] = data_out0.rotation_6X[0]; // + 30.0;
-//	if(data_out2.rotation_6X[0] > 360.0)
-//		data_out2.rotation_6X[0] = data_out2.rotation_6X[0] - 360.0;
-	
-	data_out2.rotation_6X[1] = data_out0.rotation_6X[1] + 30.0;
-	if(data_out2.rotation_6X[1] > 180.0)
-		data_out2.rotation_6X[1] = -180.0 + data_out2.rotation_6X[1] - 180.0;
-	
-	data_out2.rotation_6X[2] = data_out0.rotation_6X[2]; // + 30.0;
-//	if(data_out2.rotation_6X[2] > 180.0)
-//		data_out2.rotation_6X[2] = -180.0 + data_out2.rotation_6X[2] - 180.0;
+//	data_out2.rotation_6X[0] = data_out0.rotation_6X[0]; // + 30.0;
+////	if(data_out2.rotation_6X[0] > 360.0)
+////		data_out2.rotation_6X[0] = data_out2.rotation_6X[0] - 360.0;
+//	
+//	data_out2.rotation_6X[1] = data_out0.rotation_6X[1] + 30.0;
+//	if(data_out2.rotation_6X[1] > 180.0)
+//		data_out2.rotation_6X[1] = -180.0 + data_out2.rotation_6X[1] - 180.0;
+//	
+//	data_out2.rotation_6X[2] = data_out0.rotation_6X[2]; // + 30.0;
+////	if(data_out2.rotation_6X[2] > 180.0)
+////		data_out2.rotation_6X[2] = -180.0 + data_out2.rotation_6X[2] - 180.0;
 	
 //	calculate_Difference(&data_out0, &Attitude);
 	
 //	calculate_difference(&data_out0, &data_out2);
-	Euler2Quaternionrotate(&data_out2);
-	Quaternion_Product(&data_out0, &data_out2);
+//	Euler2Quaternionrotate(&data_out2);
+//	Quaternion_Product(&data_out0, &data_out2);
 	
-//	Euler2Quaternion_rotate(&Attitude);
-//	Quaternion_product(&data_out0, &Attitude);
+	Euler2Quaternion_rotate(&Attitude);
+	Quaternion_product(&data_out, &Attitude);
+	
 	float temp = IMU0._q0;
 	float temp2 = IMU0._q1;
 	IMU0._q0 = IMU0._q3;
@@ -354,6 +362,7 @@ void calculate_attitude()
 	temp = IMU0._q2;
 	IMU0._q2 = temp2;
 	IMU0._q3 = temp;
+	
 	Quaternion2Angles(&IMU0);
 }
 
